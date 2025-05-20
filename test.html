@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShortLink Service Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .success {
+            border-left-color: #28a745;
+            background-color: #d4edda;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 ShortLink Service Tester</h1>
+        
+        <!-- Encode Section -->
+        <h2>Encode URL</h2>
+        <div class="form-group">
+            <label for="longUrl">Long URL:</label>
+            <input type="text" id="longUrl" placeholder="https://example.com/very/long/path" 
+                   value="https://example.com/library/react">
+            <button onclick="encodeUrl()">Encode</button>
+        </div>
+        <div id="encodeResult"></div>
+
+        <!-- Decode Section -->
+        <h2>Decode Short URL</h2>
+        <div class="form-group">
+            <label for="shortUrl">Short URL:</label>
+            <input type="text" id="shortUrl" placeholder="http://short.est/abc123">
+            <button onclick="decodeUrl()">Decode</button>
+        </div>
+        <div id="decodeResult"></div>
+
+        <!-- Health Check -->
+        <h2>Service Status</h2>
+        <button onclick="checkHealth()">Check Health</button>
+        <button onclick="getStats()">Get Stats</button>
+        <div id="statusResult"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function makeRequest(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                
+                // Try to parse as JSON first, fallback to text
+                let data;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    data = await response.text();
+                }
+                
+                return {
+                    success: response.ok,
+                    data,
+                    status: response.status
+                };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+
+        function displayResult(elementId, result, successMessage = '') {
+            const element = document.getElementById(elementId);
+            
+            if (result.success) {
+                let displayData;
+                if (typeof result.data === 'string') {
+                    displayData = result.data;
+                } else {
+                    displayData = JSON.stringify(result.data, null, 2);
+                }
+                
+                element.innerHTML = `
+                    <div class="result success">
+                        <h4>✅ Success ${successMessage}</h4>
+                        <pre>${displayData}</pre>
+                    </div>
+                `;
+            } else {
+                element.innerHTML = `
+                    <div class="result error">
+                        <h4>❌ Error (Status: ${result.status || 'Network Error'})</h4>
+                        <p>${result.error || JSON.stringify(result.data, null, 2)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function encodeUrl() {
+            const longUrl = document.getElementById('longUrl').value;
+            
+            if (!longUrl) {
+                displayResult('encodeResult', {
+                    success: false,
+                    error: 'Please enter a URL to encode'
+                });
+                return;
+            }
+
+            const result = await makeRequest('/encode', 'POST', { url: longUrl });
+            displayResult('encodeResult', result, '- URL Encoded');
+            
+            // Auto-populate the decode field if successful
+            if (result.success && result.data.shortUrl) {
+                document.getElementById('shortUrl').value = result.data.shortUrl;
+            }
+        }
+
+        async function decodeUrl() {
+            const shortUrl = document.getElementById('shortUrl').value;
+            
+            if (!shortUrl) {
+                displayResult('decodeResult', {
+                    success: false,
+                    error: 'Please enter a short URL to decode'
+                });
+                return;
+            }
+
+            const result = await makeRequest('/decode', 'POST', { shortUrl });
+            displayResult('decodeResult', result, '- URL Decoded');
+        }
+
+        async function checkHealth() {
+            const result = await makeRequest('/health');
+            displayResult('statusResult', result, '- Service is healthy');
+        }
+
+        async function getStats() {
+            const result = await makeRequest('/stats');
+            displayResult('statusResult', result, '- Service statistics');
+        }
+
+        // Test the service on page load
+        window.onload = function() {
+            checkHealth();
+        };
+    </script>
+</body>
+</html>
