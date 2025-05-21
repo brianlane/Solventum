@@ -2,5 +2,6 @@ com/solventum/shortlink/service/UrlShorteningServiceTest.class
 com/solventum/shortlink/controller/ShortlinkControllerTest.class
 com/solventum/shortlink/model/DecodeResponseTest.class
 com/solventum/shortlink/model/EncodeResponseTest.class
+com/solventum/shortlink/controller/ConcurrencyControlTest.class
 com/solventum/shortlink/model/DecodeRequestTest.class
 com/solventum/shortlink/model/EncodeRequestTest.class

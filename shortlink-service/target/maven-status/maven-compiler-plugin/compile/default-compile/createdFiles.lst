@@ -1,6 +1,7 @@
 com/solventum/shortlink/controller/ShortlinkController.class
 com/solventum/shortlink/model/DecodeResponse.class
 com/solventum/shortlink/model/EncodeRequest.class
+com/solventum/shortlink/config/ConcurrencyConfig.class
 com/solventum/shortlink/ShortlinkApplication.class
 com/solventum/shortlink/model/DecodeRequest.class
 com/solventum/shortlink/service/UrlShorteningService.class
