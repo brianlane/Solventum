@@ -129,21 +129,6 @@ public class UrlShorteningService {
     }
     
     /**
-     * Decodes a Base-62 string back to its numeric representation.
-     * Currently used for validation purposes.
-     * 
-     * @param encoded the Base-62 encoded string
-     * @return the decoded number
-     */
-    private long decodeBase62(String encoded) {
-        long decoded = 0;
-        for (char c : encoded.toCharArray()) {
-            decoded = decoded * BASE + ALPHABET.indexOf(c);
-        }
-        return decoded;
-    }
-    
-    /**
      * Validates if a string is a properly formatted URL.
      * 
      * @param url the URL string to validate

@@ -1,28 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.solventum.shortlink.controller.ConcurrencyControlTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.600 s <<< FAILURE! -- in com.solventum.shortlink.controller.ConcurrencyControlTest
-com.solventum.shortlink.controller.ConcurrencyControlTest.testConcurrencyLimitForDecode -- Time elapsed: 0.127 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: Decode should also reject requests when limit exceeded ==> expected: <true> but was: <false>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
-	at com.solventum.shortlink.controller.ConcurrencyControlTest.testConcurrencyLimitForDecode(ConcurrencyControlTest.java:175)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.solventum.shortlink.controller.ConcurrencyControlTest.testConcurrencyLimitEnforce -- Time elapsed: 0.064 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: Some requests should be rejected due to concurrency limit ==> expected: <true> but was: <false>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
-	at com.solventum.shortlink.controller.ConcurrencyControlTest.testConcurrencyLimitEnforce(ConcurrencyControlTest.java:111)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.660 s -- in com.solventum.shortlink.controller.ConcurrencyControlTest

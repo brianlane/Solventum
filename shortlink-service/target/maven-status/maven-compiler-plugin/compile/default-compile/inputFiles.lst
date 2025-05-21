@@ -3,5 +3,6 @@
 /Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/model/EncodeRequest.java
 /Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/model/EncodeResponse.java
 /Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/model/DecodeRequest.java
+/Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/config/ConcurrencyConfig.java
 /Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/controller/ShortlinkController.java
 /Users/brianlane/solventum/shortlink-service/src/main/java/com/solventum/shortlink/ShortlinkApplication.java
